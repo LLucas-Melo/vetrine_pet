@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vetrine_pet/controller/cart_controller.dart';
 import 'package:vetrine_pet/controller/favorite_controller.dart';
 import 'package:vetrine_pet/models/produto.dart';
 
@@ -105,13 +106,15 @@ class _HomePageState extends State<HomePage> {
       isFavorite: false,
     )
   ];
-  late FavoriteController controller;
+  late FavoriteController controllerFavorite;
+  late CartController cartController;
 
   @override
   void initState() {
     super.initState();
-    controller = FavoriteController();
-    controller.value = produtos;
+    controllerFavorite = FavoriteController();
+    cartController = CartController();
+    controllerFavorite.value = produtos;
   }
 
   // void toggleFavorit(Produtos produtos) {
@@ -151,15 +154,20 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.pushNamed(
                       context,
-                      arguments: controller.produtosFavoritos,
+                      arguments: controllerFavorite.produtosFavoritos,
                       '/favorite',
                     );
                   },
                 ),
                 IconButton(
-                  icon: const Icon(Icons.shopping_cart),
-                  onPressed: () {},
-                ),
+                    icon: const Icon(Icons.shopping_cart),
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        arguments: cartController.cartItems,
+                        '/cart',
+                      );
+                    }),
               ],
             )
           ],
@@ -175,7 +183,7 @@ class _HomePageState extends State<HomePage> {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ValueListenableBuilder(
-            valueListenable: controller,
+            valueListenable: controllerFavorite,
             builder: (buildContext, value, child) {
               return ListView.builder(
                 itemCount: produtos.length,
@@ -188,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                       image: produto.image,
                       isFavorite: produto.isFavorite,
                       toggleFavorite: () => {
-                            controller.toggleFavorite(produto),
+                            controllerFavorite.toggleFavorite(produto),
                           });
                 },
               );

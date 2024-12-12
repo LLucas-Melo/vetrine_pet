@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vetrine_pet/controller/cart_controller.dart';
 import 'package:vetrine_pet/controller/favorite_controller.dart';
+import 'package:vetrine_pet/view/cart_page.dart';
 import 'package:vetrine_pet/view/home_page.dart';
 import 'package:vetrine_pet/theme/theme.dart';
 
@@ -21,6 +23,9 @@ class MainApp extends StatelessWidget {
         '/favorite': (context) => FavoritePage(
               controller: FavoriteController(),
             ),
+        '/cart': (context) => CartPage(
+              controller: CartController(),
+            ),
       },
       //passando o argumento via rota
       onGenerateRoute: (settings) {
@@ -28,6 +33,13 @@ class MainApp extends StatelessWidget {
           return MaterialPageRoute(
             builder: (context) => FavoritePage(
               controller: settings.arguments as FavoriteController,
+            ),
+          );
+        }
+        if (settings.name == '/cart') {
+          return MaterialPageRoute(
+            builder: (context) => CartPage(
+              controller: settings.arguments as CartController,
             ),
           );
         }

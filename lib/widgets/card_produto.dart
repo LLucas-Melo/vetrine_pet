@@ -9,13 +9,15 @@ class CardProduto extends StatefulWidget {
       this.isFavorite,
       required this.price,
       this.onPressed,
-      this.toggleFavorite});
+      this.toggleFavorite,
+      this.inCart});
 
   final String image;
   final String productName;
   final String description;
   final double price;
   final bool? isFavorite;
+  final bool? inCart;
   final void Function()? onPressed;
   final void Function()? toggleFavorite;
 
@@ -50,9 +52,11 @@ class _CardProdutoState extends State<CardProduto> {
                   width: 10,
                 ),
                 GestureDetector(
-                  onTap: widget.toggleFavorite,
-                  child: const Icon(
-                    Icons.shopping_cart,
+                  onTap: widget.onPressed,
+                  child: Icon(
+                    widget.inCart ?? false
+                        ? Icons.remove_shopping_cart
+                        : Icons.add_shopping_cart,
                   ),
                 ),
               ],
