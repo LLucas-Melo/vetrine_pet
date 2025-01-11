@@ -1,30 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:vetrine_pet/models/produto.dart';
+import 'package:vetrine_pet/view/states/favorite_state.dart';
 
-class FavoriteController extends ValueNotifier<List<Produtos>> {
-  List<Produtos> produtosFavoritos = [];
-  List<Produtos> produtos = [];
-  FavoriteController()
-      : super([
-          Produtos(
-              id: 0,
-              name: '',
-              description: '',
-              image: '',
-              price: 0,
-              isFavorite: false)
-        ]);
+class FavoriteController extends ValueNotifier<FavoriteState> {
+  FavoriteController() : super(FavoriteStateInitial());
+  final List<Produto> _favoriteProducts = [];
 
-  void toggleFavorite(Produtos produtos) {
-    produtos.isFavorite = !produtos.isFavorite;
+  toggleFavorite(Produto product) {
+    value = FavoriteStateLoading();
 
-    if (produtos.isFavorite) {
-      produtosFavoritos.add(produtos);
-      notifyListeners();
-      print(produtosFavoritos);
+    if (product.isFavorite) {
+      _favoriteProducts.add(product);
     } else {
-      produtosFavoritos.removeWhere((item) => item.id == produtos.id);
-      notifyListeners();
+      _favoriteProducts.removeWhere((item) => item.id == product.id);
     }
+    value = FavoriteStateSuccess(products: _favoriteProducts);
   }
+
+  List<Produto> get favoriteProdutos => _favoriteProducts;
 }

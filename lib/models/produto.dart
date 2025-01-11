@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class Produtos {
+class Produto {
   int id;
   String name;
   String description;
@@ -8,7 +8,7 @@ class Produtos {
   double price;
   bool isFavorite = false;
 
-  Produtos({
+  Produto({
     required this.id,
     required this.name,
     required this.description,
@@ -33,8 +33,8 @@ class Produtos {
     };
   }
 
-  factory Produtos.fromMap(Map<String, dynamic> map) {
-    return Produtos(
+  factory Produto.fromMap(Map<String, dynamic> map) {
+    return Produto(
       id: map['id'] as int,
       name: map['name'] as String,
       description: map['description'] as String,
@@ -46,10 +46,10 @@ class Produtos {
 
   String toJson() => json.encode(toMap());
 
-  factory Produtos.fromJson(String source) =>
-      Produtos.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Produto.fromJson(String source) =>
+      Produto.fromMap(json.decode(source) as Map<String, dynamic>);
 
-  Produtos copyWith({
+  Produto copyWith({
     int? id,
     String? name,
     String? description,
@@ -58,7 +58,7 @@ class Produtos {
     int? quantity,
     bool? isFavorite,
   }) {
-    return Produtos(
+    return Produto(
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,

@@ -3,7 +3,7 @@ import 'package:vetrine_pet/models/produto.dart';
 
 class CartItem {
   int quantity;
-  final Produtos produto;
+  final Produto produto;
   CartItem({
     required this.quantity,
     required this.produto,

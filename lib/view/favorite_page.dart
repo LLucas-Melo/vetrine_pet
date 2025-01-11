@@ -1,16 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:vetrine_pet/view/states/favorite_state.dart';
 
 import '../controller/favorite_controller.dart';
-import '../models/produto.dart';
+
 import '../widgets/card_produto.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({
     super.key,
-    required this.controller,
+    required this.favorite,
   });
-  final FavoriteController controller;
+  final FavoriteController favorite;
 
   @override
   State<FavoritePage> createState() => _FavoritePageState();
@@ -19,36 +20,40 @@ class FavoritePage extends StatefulWidget {
 class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
-    final favoritos = List<Produtos>.from(
-        ModalRoute.of(context)!.settings.arguments as List<Produtos>);
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favoritos'),
+        title: const Text('favorite'),
+        centerTitle: true,
       ),
-      body: favoritos.isEmpty
-          ? const Center(child: Text('Sem favoritos'))
-          : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ValueListenableBuilder<List<Produtos>>(
-                valueListenable: widget.controller,
-                builder: (context, _, child) {
-                  return ListView.builder(
-                    itemCount: favoritos.length,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ValueListenableBuilder<FavoriteState>(
+            valueListenable: widget.favorite,
+            builder: (context, value, child) {
+              if (value is FavoriteStateSuccess) {
+                return ListView.builder(
+                    itemCount: value.products.length,
                     itemBuilder: (context, index) {
-                      final produto = favoritos[index];
+                      final product = value.products[index];
                       return CardProduto(
-                        description: produto.description,
-                        image: produto.image,
-                        productName: produto.name,
-                        price: produto.price,
-                        isFavorite: produto.isFavorite,
+                        image: product.image,
+                        productName: product.name,
+                        price: product.price,
+                        description: product.description,
+                        isFavorite: product.isFavorite,
+                        toggleFavorite: () {
+                          setState(() {
+                            product.isFavorite = !product.isFavorite;
+                          });
+                          widget.favorite.toggleFavorite(product);
+                        },
                       );
-                    },
-                  );
-                },
-              ),
-            ),
+                    });
+              } else {
+                return const SizedBox();
+              }
+            }),
+      ),
     );
   }
 }

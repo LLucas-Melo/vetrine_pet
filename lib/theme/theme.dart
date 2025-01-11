@@ -7,7 +7,7 @@ class ThemeApp {
       primarySwatch: Colors.indigo,
       primaryColorLight: const Color.fromARGB(255, 195, 94, 219),
       primaryColorDark: Colors.blue.shade700,
-      primaryColor: Color.fromARGB(255, 85, 207, 194),
+      primaryColor: const Color.fromARGB(255, 85, 207, 194),
       fontFamily: 'Roboto',
       colorScheme: ColorScheme.fromSwatch().copyWith(
         surface: Colors.grey.shade200,
